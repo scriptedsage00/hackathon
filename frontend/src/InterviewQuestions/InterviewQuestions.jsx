@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./InterviewQuestions.css"; // Import CSS file
+import { useNavigate } from "react-router-dom";
+import "./InterviewQuestions.css"; 
 
 export default function InterviewQuestions() {
     const [file, setFile] = useState(null);
     const [jobDescription, setJobDescription] = useState("");
     const [currentRole, setCurrentRole] = useState("");
-    const [response, setResponse] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     function handleFileChange(event) {
         setFile(event.target.files[0]);
@@ -35,15 +36,15 @@ export default function InterviewQuestions() {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
         })
-            .then((res) => {
-                setResponse(res.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error:", err);
-                setError("Failed to analyze resume. Please try again.");
-                setLoading(false);
-            });
+        .then((res) => {
+            setLoading(false);
+            navigate("/display-questions", { state: { questions: res.data.analysis.technical_questions } });
+        })
+        .catch((err) => {
+            console.error("Error:", err);
+            setError("Failed to analyze resume. Please try again.");
+            setLoading(false);
+        });
     }
 
     return (
@@ -67,18 +68,6 @@ export default function InterviewQuestions() {
                     {loading ? "Analyzing..." : "Generate Questions"}
                 </button>
             </form>
-
-            {response && response.analysis && response.analysis.technical_questions && (
-                <div className="interview-results">
-                    <h3>Technical Interview Questions</h3>
-                    <ul>
-                        {response.analysis.technical_questions.map((question, index) => (
-                            <li key={index}>{question}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-
         </div>
     );
 }

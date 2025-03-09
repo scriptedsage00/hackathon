@@ -16,6 +16,9 @@ export default function Navigation() {
                 <Link to="/">
                     <button>Home</button>
                 </Link>
+                <Link to="/selection">  
+                    <button>Selection Page</button>  {/* ✅ Added Selection Page Button */}
+                </Link>
             </div>
 
             {/* Right Section */}

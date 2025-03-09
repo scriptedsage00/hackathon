@@ -24,7 +24,7 @@ function App() {
                     <Route path="/interview-questions" element={<InterviewQuestions />} />
                     <Route path="/verify-otp" element={<OtpVerify />} />
                     <Route path="/resume-analysis-results" element={<ResumeAnalysisResult />} />
-                    <Route path="/display-questions" element={<ResumeAnalysisResult />} />
+                    <Route path="/display-questions" element={<DisplayQuestions />} />
                 </Routes>
             </AuthProvider>
         </Router>
