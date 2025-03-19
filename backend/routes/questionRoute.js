@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const pdfParse = require("pdf-parse");
 
 async function extractResumeContent(pdfBuffer) {
@@ -63,12 +63,21 @@ router.post("/", authMiddleware, upload.single("file"), async (req, res) => {
         }
         `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const rawResponse = response.text();
+        // 🔹 Ensure Proper AI Request Format
+        const result = await model.generateContent({
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+        });
 
+        // 🔹 Validate AI Response
+        if (!result || !result.response || !result.response.candidates) {
+            console.error("AI response structure invalid:", result);
+            return res.status(500).json({ error: "Invalid AI response structure." });
+        }
+
+        const rawResponse = result.response.candidates[0]?.content?.parts?.[0]?.text || "";
         console.log("AI Raw Response:", rawResponse);
 
+        // 🔹 Clean AI Response from Code Blocks
         const cleanedResponse = rawResponse.replace(/```json|```/g, "").trim();
 
         try {
