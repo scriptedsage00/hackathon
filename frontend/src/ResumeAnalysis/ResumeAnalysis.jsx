@@ -30,7 +30,7 @@ export default function ResumeAnalysis() {
         formData.append("jobDescription", jobDescription);
         formData.append("currentRole", currentRole);
 
-        axios.post("https://hackathon-vxdp.onrender.com/api/resume", formData, {
+        axios.post("http://resumelens-backend-env.eba-jepn5cmh.ap-south-1.elasticbeanstalk.com/api/resume", formData, {
             headers: { 
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${localStorage.getItem("token")}`
