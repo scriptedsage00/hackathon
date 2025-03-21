@@ -14,13 +14,13 @@ export default function OtpVerify() {
         e.preventDefault();
         console.log("Verifying OTP for:", userData.email);
 
-        axios.post("https://hackathon-vxdp.onrender.com/api/auth/signup/verify-otp", { email: userData.email, user_otp: otp })
+        axios.post("http://resumelens-backend-env.eba-jepn5cmh.ap-south-1.elasticbeanstalk.com/api/auth/signup/verify-otp", { email: userData.email, user_otp: otp })
             .then((res) => {
                 alert("OTP verified successfully!");
                 console.log("✅ OTP Verified. Proceeding to Signup...");
 
                 // 🔥 Call Signup API after OTP verification
-                axios.post("https://otp-check-l58y.onrender.com/api/auth/signup", userData)
+                axios.post("http://resumelens-backend-env.eba-jepn5cmh.ap-south-1.elasticbeanstalk.com/api/auth/signup", userData)
                     .then((res) => {
                         alert("Signup successful!");
                         console.log("✅ User Registered:", res.data);
