@@ -21,7 +21,7 @@ export default function Login() {
     console.log(formData)
 
 
-    axios.post("http://resumelens-backend-env.eba-jepn5cmh.ap-south-1.elasticbeanstalk.com/api/auth/login", formData)
+    axios.post("https://resumelens-backend-env.eba-jepn5cmh.ap-south-1.elasticbeanstalk.com/api/auth/login", formData)
       .then((res) => {
         console.log("login response", res)
         if (res.status === 200) {
